@@ -7,7 +7,7 @@
 !    Codificación del texto: UTF8
 !    Compiladores probados: GNU Fortran (Ubuntu 20.04 Linux) 4.8.5
 !    Instrucciones de compilación: no requiere nada mas
-!    gfortran -Wall -pedantic -std=f95 -c -o <program>.o <program>.f90
+!    gfortran -Wall -pedantic -std=f95 -c -o <program>.o <program>.f95
 !    gfortran -o <program>.x <program>.o 
 
 !    Copyright (C) 2021
