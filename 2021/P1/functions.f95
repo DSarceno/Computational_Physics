@@ -32,30 +32,27 @@ MODULE functions
 PUBLIC primes
 
 CONTAINS
-  FUNCTION primes (n)
+  FUNCTION primes (n) RESULT(prime)
     IMPLICIT NONE
 
     INTEGER, INTENT(IN) :: n      ! Entero ingresado en la función
-    INTEGER :: primes             ! Valor retornado de la función
-    INTEGER :: j, limit
+    INTEGER :: j
+    LOGICAL :: prime
 
-    limit = CEILING(SQRT(REAL(n)))
-
-    primes = 1
-
-    IF (n.EQ.1) THEN              ! En caso de que el número ingresado sea 1
-      primes = 0                    ! se devolverá 0 como señal de que no es primo
+    IF (n.NE.1) THEN
+      prime = .TRUE.
     END IF
 
-    DO j = 1, limit
-      IF ((MOD(n,j).EQ.0) .OR. (j.NE.n)) THEN
-        primes = 0
+
+    DO j = 2,CEILING(SQRT(REAL(n)))
+      IF ((MOD(n,j).EQ.0) .AND. (j.NE.n)) THEN
+        prime = .FALSE.
       END IF
     END DO
 
 
-    IF (primes.EQ.1) THEN
-      primes = n
+    IF (prime.NEQV. .FALSE.) THEN
+      prime = .TRUE.
     END IF
 
   END FUNCTION primes

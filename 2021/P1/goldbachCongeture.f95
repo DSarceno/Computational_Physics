@@ -35,12 +35,13 @@ PROGRAM goldbachCongeture
 
   IMPLICIT NONE
 
-  INTEGER :: a
-
-  READ(*,*) a
+  INTEGER :: i
 
 
-  WRITE(*,*) primes(a)
+  DO i = 1,20
+    WRITE(*,*) i,primes(i)
+  END DO
+
 
 
 END PROGRAM goldbachCongeture
