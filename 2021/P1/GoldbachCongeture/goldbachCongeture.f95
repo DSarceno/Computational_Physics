@@ -35,13 +35,22 @@ PROGRAM goldbachCongeture
 
   IMPLICIT NONE
 
-  INTEGER :: i
+  INTEGER :: i, n
 
+  READ(*,*) n
 
-  DO i = 1,20
-    WRITE(*,*) i,primes(i)
+  IF (n .LE. 2) STOP 'Número no válido'
+
+  DO i = 2, n
+    IF (primes(i) .EQV. .TRUE.) THEN
+      WRITE(99,*) i
+    END IF
   END DO
 
+
+
+  ! Implementación de la conjetura de Goldbach
+  
 
 
 END PROGRAM goldbachCongeture
