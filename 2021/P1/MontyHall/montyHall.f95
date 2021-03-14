@@ -5,8 +5,8 @@
 !    Programa <program>
 
 !    Codificación del texto: UTF8
-!    Compiladores probados: GNU Fortran (Ubuntu 20.04 Linux) 4.8.5
-!    Instrucciones de compilación: no requiere nada mas
+!    Compiladores probados: GNU Fortran (Ubuntu 20.04 Linux) 9.3.0
+!    Instrucciones de compilación: no requere nada mas
 !    gfortran -Wall -pedantic -std=f95 -c -o montyHall.o montyHall.f95
 !    gfortran -o montyHall.x montyHall.o
 
@@ -30,13 +30,109 @@
 !
 
 PROGRAM montyHall
-  REAL :: v
-  INTEGER :: i
+  IMPLICIT NONE
 
-  !READ(*,*) v
+  ! VARIABLES
+  ! Showman variables
+  REAL :: good_door    ! random number to generate de position of the good door
+  INTEGER :: pos_good_door   ! number n in [1,3] where is the price
+  INTEGER, DIMENSION(3) :: doors    ! The three doors of the Classic MH problem
 
+  ! Contestant variables
+  REAL :: choice
+  INTEGER :: pos_choice
+  INTEGER :: success_s, n   ! counter of success and number of iterations
+
+  INTEGER :: success_c      !
+
+  INTEGER :: n_d      ! Number of data
+
+  INTEGER :: i,j    ! Iterator
+
+  ! ALGORITHM
+  CALL RANDOM_NUMBER(good_door)
+  pos_good_door = 1 + FLOOR(3*good_door)  ! Random position of the price
+
+  SELECT CASE (pos_good_door) ! Ordering the array based on 'pos_good_door'
+  CASE (1)
+    doors(1) = 1
+    doors(2) = 0
+    doors(3) = 0
+  CASE (2)
+    doors(1) = 0
+    doors(2) = 1
+    doors(3) = 0
+  CASE (3)
+    doors(1) = 0
+    doors(2) = 0
+    doors(3) = 1
+  END SELECT
+
+  WRITE(*,*) doors
+
+
+
+
+  ! STAY DECISION
+
+
+  success_s = 0   ! initializing the counter of success
+  n = 10000     ! Iterations
   DO i = 1, 100
-    CALL RANDOM_NUMBER(v)
-    WRITE(*,*) '[1,3]', 1 + FLOOR(3*v)
+    DO j = 1, n
+      CALL RANDOM_NUMBER(choice)
+      pos_choice = 1 + FLOOR(3*choice)  ! Random position of the price
+
+      IF (doors(pos_choice) .EQ. 1) THEN
+        success_s = success_s + 1
+      END IF
+    END DO
+
+    WRITE('csv',*) success_s
+
+    success_s = 0
   END DO
+
+
+
+  ! CHANGE DECISION
+  
+
+
+
+
 END PROGRAM montyHall
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+! END
