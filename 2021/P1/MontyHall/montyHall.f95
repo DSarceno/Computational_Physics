@@ -49,36 +49,32 @@ PROGRAM montyHall
 
   INTEGER :: i,j    ! Iterator
 
+  INTEGER(4) :: err
+
+
+  ! Arrays fo data analysis
+  INTEGER :: sum
+  INTEGER,ALLOCATABLE,DIMENSION(:) :: data
+
   ! ALGORITHM
+  doors = 0     ! Vector 0
   CALL RANDOM_NUMBER(good_door)
   pos_good_door = 1 + FLOOR(3*good_door)  ! Random position of the price
 
-  SELECT CASE (pos_good_door) ! Ordering the array based on 'pos_good_door'
-  CASE (1)
-    doors(1) = 1
-    doors(2) = 0
-    doors(3) = 0
-  CASE (2)
-    doors(1) = 0
-    doors(2) = 1
-    doors(3) = 0
-  CASE (3)
-    doors(1) = 0
-    doors(2) = 0
-    doors(3) = 1
-  END SELECT
+  doors(pos_good_door) = 1     ! asignar la puerta del exito en el vector
 
   WRITE(*,*) doors
 
 
-
+  n_d = 100     ! numero de datos a reopilar
 
   ! STAY DECISION
 
 
-  success_s = 0   ! initializing the counter of success
+
   n = 10000     ! Iterations
-  DO i = 1, 100
+  DO i = 1, n_d
+    success_s = 0   ! initializing the counter of success
     DO j = 1, n
       CALL RANDOM_NUMBER(choice)
       pos_choice = 1 + FLOOR(3*choice)  ! Random position of the price
@@ -88,19 +84,53 @@ PROGRAM montyHall
       END IF
     END DO
 
-    WRITE('csv',*) success_s
-
-    success_s = 0
+    WRITE(1,*) success_s
   END DO
-
+  CLOSE(1)
 
 
   ! CHANGE DECISION
+
+  n = 10000     ! Iterations
+  DO i = 1, n_d
+    success_c = 0   ! initializing the counter of success
+    DO j = 1, n
+      CALL RANDOM_NUMBER(choice)
+      pos_choice = 1 + FLOOR(3*choice)  ! Random position of the price
+
+      IF (doors(pos_choice) .EQ. 0) THEN
+        success_c = success_c + 1
+      END IF
+    END DO
+
+    WRITE(2,*) success_c
+  END DO
+  CLOSE(2)
+
+  ! Data analysis
+  ALLOCATE(data(n_d),STAT=err)
+  IF (err.NE.0) STOP "Memoria no reservada"
+  OPEN(12,FILE="fort.1",IOSTAT=err)
+  IF (err.EQ.0) THEN
+    DO j = 1,n_d
+      READ(12,*) data(j)
+    END DO
+  ELSE
+    STOP "Archivo no encontrado"
+  END IF
+  CLOSE(12)
+
+  WRITE(*,*) data
+
+  sum = 0
+  DO j=1,n_d
+    sum = sum + data(j)
+  END DO
+
+  WRITE(*,*) "Sin cambiar su desición inicial: ", ((REAL(sum)/REAL(n_d))/REAL(n))*100, "%"
   
 
-
-
-
+  DEALLOCATE(data)
 END PROGRAM montyHall
 
 
