@@ -1,4 +1,10 @@
 *.o
 *.x
 *.mod
-
+*.aux
+*.out
+*.synctex.gz
+*.log
+*.nav
+*.snm
+*.toc
