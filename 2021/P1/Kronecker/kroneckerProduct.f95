@@ -30,7 +30,7 @@
 !
 
 PROGRAM kroneckerProduct
-USE matrixGenerator
+!USE matrixGenerator
 IMPLICIT NONE
 
   ! creando dos matrices de dimensiones mxn y pxq
@@ -54,17 +54,17 @@ IMPLICIT NONE
   IF (err.NE.0) STOP "Memoria no reservada"
 
 
-  ! matriz 1, matriz de pauli x
+  ! matriz 1, matriz de pauli z
   M1 = 0
-  M1(1,2) = 1
-  M1(2,1) = 1
+  M1(1,1) = 1
+  M1(2,2) = -1
   WRITE(*,*) M1
 
 
   ALLOCATE(M2(p,q),STAT=err)
   IF (err.NE.0) STOP "Memoria no reservada"
 
-  ! matriz 2, matriz de pauli z
+  ! matriz 2
   M2 = 0
   M2(1,2) = 1
   M2(2,1) = 1
