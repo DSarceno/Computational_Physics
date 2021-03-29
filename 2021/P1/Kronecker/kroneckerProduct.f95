@@ -6,9 +6,10 @@
 
 !    Codificación del texto: UTF8
 !    Compiladores probados: GNU Fortran (Ubuntu 20.04 Linux) 9.3.0
-!    Instrucciones de compilación: no requere nada mas
+!    Instrucciones de compilación: requiere matrixGenerator.f95
+!    gfortran -Wall -pedantic -std=f95 -c -o matrixGenerator.o matrixGenerator.f95
 !    gfortran -Wall -pedantic -std=f95 -c -o kroneckerProduct.o kroneckerProduct.f95
-!    gfortran -o kroneckerProduct.x kroneckerProduct.o
+!    gfortran -o kroneckerProduct.x matrixGenerator.o kroneckerProduct.o
 
 !    Copyright (C) 2021
 !    D. R. Sarceño Ramírez
@@ -30,7 +31,7 @@
 !
 
 PROGRAM kroneckerProduct
-!USE matrixGenerator
+USE matrixGenerator
 IMPLICIT NONE
 
   ! creando dos matrices de dimensiones mxn y pxq
@@ -41,6 +42,15 @@ IMPLICIT NONE
   INTEGER :: i,j,k,l
 
   INTEGER :: err
+
+
+
+  INTEGER, ALLOCATABLE,DIMENSION(:) :: seed
+  INTEGER :: s
+  REAL, ALLOCATABLE, DIMENSION(:) :: x
+
+  ALLOCATE(x(100),STAT=err)
+  IF (err.NE.0) STOP 'Memoria no reservada'
 
 
   ! Dimensiones de las matrices
@@ -58,7 +68,7 @@ IMPLICIT NONE
   M1 = 0
   M1(1,1) = 1
   M1(2,2) = -1
-  WRITE(*,*) M1
+  !WRITE(*,*) M1
 
 
   ALLOCATE(M2(p,q),STAT=err)
@@ -70,7 +80,7 @@ IMPLICIT NONE
   M2(2,1) = 1
   M2(2,3) = 1
   M2(3,2) = 1
-  WRITE(*,*) M2
+  !WRITE(*,*) M2
 
   ! Producto de kronecker
   ALLOCATE(R(m*p,n*q),STAT=err)
@@ -90,13 +100,36 @@ IMPLICIT NONE
 
 
 ! Creando archivo con la matriz resultante
-DO i = 1, m*p
-  WRITE(99,*) INT(R(i,1)), INT(R(i,2)), INT(R(i,3)), INT(R(i,4)), &
+  DO i = 1, m*p
+    WRITE(99,*) INT(R(i,1)), INT(R(i,2)), INT(R(i,3)), INT(R(i,4)), &
                   & INT(R(i,5)), INT(R(i,6))
-END DO
-
+  END DO
+  CLOSE(99)
 
   WRITE(98,*) R
+  CLOSE(98)
+
+
+  CALL RANDOM_SEED(SIZE = s)
+
+  ALLOCATE(seed(s), STAT=err)
+  IF (err.NE.0) STOP 'Memoria no reservada'
+  seed = 100 + 37 * (/ (i-1,i=1,s) /)
+  CALL RANDOM_SEED(PUT = seed)
+  WRITE(*,*) seed
+  DEALLOCATE(seed)
+
+
+
+
+  CALL RANDOM_NUMBER(x)
+
+  WRITE(*,*) x
+
+  WRITE(*,*) mGen(2,2)
+
+
+
 END PROGRAM kroneckerProduct
 
 

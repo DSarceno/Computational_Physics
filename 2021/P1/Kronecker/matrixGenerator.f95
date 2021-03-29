@@ -35,14 +35,88 @@ MODULE matrixGenerator
 PUBLIC mGen
 
 CONTAINS
-  FUNCTION mGen(a,b) RESULT(matrix)
+  FUNCTION mGen(a,b) RESULT(M)
     IMPLICIT NONE
 
+    ! Dimensiones de la matriz "axb"
     INTEGER, INTENT(IN) :: a, b
+    ! matriz a devolver
+    INTEGER, DIMENSION(a,b) :: M
+    ! matriz de números reales aleatorios
+    INTEGER :: i, J  ! iterador
+    REAL, DIMENSION(a,b) :: Transition
+    ! Seed
+    INTEGER :: base
+    INTEGER, ALLOCATABLE,DIMENSION(:) :: seed
+    INTEGER :: s
 
+
+    ! Variable error
+    INTEGER :: err
+    M = 0
+
+    ! Leer la base
+    OPEN(21,FILE="seed.in",STATUS="OLD",IOSTAT=err)
+    IF (err.EQ.0) THEN
+      READ(21,*) base
+      CLOSE(21)
+    END IF
+
+    ! Tamaño optimo para el seed
+    CALL RANDOM_SEED(SIZE = s)
+    ! allocate seed
+    ALLOCATE(seed(s), STAT=err)
+    IF (err.NE.0) STOP 'Memoria no reservada'
+    ! Generador de números para el seed
+    seed = base + 37 * (/ (i-1,i=1,s) /)
+    CALL RANDOM_SEED(PUT = seed)
+    DEALLOCATE(seed)
+
+    CALL RANDOM_NUMBER(Transition)
+
+
+    ! Rango de números 0-base
+    DO i = 1,a
+      DO j = 1,b
+        M(i,j) = FLOOR(base*Transition(i,j))
+      END DO
+    END DO
 
   END FUNCTION mGen
 
 
 
 END MODULE matrixGenerator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+! END
