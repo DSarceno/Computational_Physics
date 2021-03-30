@@ -32,7 +32,7 @@
 !
 MODULE matrixGenerator
 
-PUBLIC mGen
+PUBLIC mGen, expFile
 
 CONTAINS
   FUNCTION mGen(a,b) RESULT(M)
@@ -83,9 +83,6 @@ CONTAINS
     END DO
 
   END FUNCTION mGen
-
-
-
 END MODULE matrixGenerator
 
 

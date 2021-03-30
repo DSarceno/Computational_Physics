@@ -2,7 +2,12 @@
 !    kroneckerProduct.f95
 !    Diego Sarceño (dsarceno68@gmail.com)
 
-!    Programa <program>
+!    Programa del archivo "dim.in" toma las dimensiones de las matrices que se
+!    desea generar, si dicho archivo no existe, se toman dos matrices predeterminadas.
+!    Se requiere del módulo "matrixGenerator.f95" el cual toma las dimensiones de una
+!    matriz y genera dicha matriz en base a números aleatorios y una semilla creada
+!    con la base en el archivo "seed.in". Con las matrices creadas se encuentra el
+!    producto tensorial de Kronecker entre ambas matrices.
 
 !    Codificación del texto: UTF8
 !    Compiladores probados: GNU Fortran (Ubuntu 20.04 Linux) 9.3.0
@@ -40,52 +45,72 @@ IMPLICIT NONE
   INTEGER :: n,m,p,q
   ! iteradores
   INTEGER :: i,j,k,l
-
+  ! Variable de error
   INTEGER :: err
-
-
-
-  INTEGER, ALLOCATABLE,DIMENSION(:) :: seed
-  INTEGER :: s
-  REAL, ALLOCATABLE, DIMENSION(:) :: x
-
-  ALLOCATE(x(100),STAT=err)
-  IF (err.NE.0) STOP 'Memoria no reservada'
+  ! Para escribir el archivo con la matriz
+  INTEGER, ALLOCATABLE, DIMENSION(:) :: rowVector
 
 
   ! Dimensiones de las matrices
-  m = 2
-  n = 2
-  p = 3
-  q = 3
+  OPEN(12,FILE = 'dim.in',STATUS = 'OLD', IOSTAT = err)
+  IF (err.EQ.0) THEN
+    READ(12,*) m
+    READ(12,*) n
+    READ(12,*) p
+    READ(12,*) q
+    CLOSE(12)
+
+    ! matriz 1
+    ALLOCATE(M1(m,n),STAT=err)
+    IF (err.NE.0) STOP "Memoria no reservada"
+
+    M1 = mGen(m,n)
 
 
-  ALLOCATE(M1(m,n),STAT=err)
-  IF (err.NE.0) STOP "Memoria no reservada"
+    ! matriz 2
+    ALLOCATE(M2(p,q),STAT=err)
+    IF (err.NE.0) STOP "Memoria no reservada"
+
+    M2 = mGen(p,q)
+  ELSE ! en caso de que no exista el archivo, se toman dos matrices predeterminadas
+    m = 2
+    n = 2
+    p = 3
+    q = 3
+    ! MATRICES DE PRUEBA
+    ALLOCATE(M1(m,n),STAT=err)
+    IF (err.NE.0) STOP "Memoria no reservada"
 
 
-  ! matriz 1, matriz de pauli z
-  M1 = 0
-  M1(1,1) = 1
-  M1(2,2) = -1
-  !WRITE(*,*) M1
+    ! matriz 1, matriz de pauli z
+    M1 = 0
+    M1(1,1) = 1
+    M1(2,2) = -1
+    !WRITE(*,*) M1
 
 
-  ALLOCATE(M2(p,q),STAT=err)
-  IF (err.NE.0) STOP "Memoria no reservada"
+    ALLOCATE(M2(p,q),STAT=err)
+    IF (err.NE.0) STOP "Memoria no reservada"
 
-  ! matriz 2
-  M2 = 0
-  M2(1,2) = 1
-  M2(2,1) = 1
-  M2(2,3) = 1
-  M2(3,2) = 1
-  !WRITE(*,*) M2
+    ! matriz 2
+    M2 = 0
+    M2(1,2) = 1
+    M2(2,1) = 1
+    M2(2,3) = 1
+    M2(3,2) = 1
+    !WRITE(*,*) M2
+    ! FIN DE MATRICES DE PRUEBA
+  END IF
+
 
   ! Producto de kronecker
   ALLOCATE(R(m*p,n*q),STAT=err)
   IF (err.NE.0) STOP "Memoria no reservada"
 
+
+  R = 0
+
+  ! Se realizar 4 ciclos para navegar por cada una de los elementos de cada matriz
   DO i = 1,m                    ! Iterador sobre las filas de M1
     DO j = 1,n                  ! Iterador sobre las columnas de M1
       DO k = 1,p                ! Iterador sobre las filas de M2
@@ -98,37 +123,21 @@ IMPLICIT NONE
     END DO
   END DO
 
-
-! Creando archivo con la matriz resultante
-  DO i = 1, m*p
-    WRITE(99,*) INT(R(i,1)), INT(R(i,2)), INT(R(i,3)), INT(R(i,4)), &
-                  & INT(R(i,5)), INT(R(i,6))
-  END DO
-  CLOSE(99)
-
-  WRITE(98,*) R
-  CLOSE(98)
-
-
-  CALL RANDOM_SEED(SIZE = s)
-
-  ALLOCATE(seed(s), STAT=err)
+  ! Representacion de la matriz resultante en un archivo "fort.11"
+  ! vector para escribir las filas en dicho archivo
+  ALLOCATE(rowVector(n*q), STAT = err)
   IF (err.NE.0) STOP 'Memoria no reservada'
-  seed = 100 + 37 * (/ (i-1,i=1,s) /)
-  CALL RANDOM_SEED(PUT = seed)
-  WRITE(*,*) seed
-  DEALLOCATE(seed)
 
+  rowVector = 0
 
-
-
-  CALL RANDOM_NUMBER(x)
-
-  WRITE(*,*) x
-
-  WRITE(*,*) mGen(2,2)
-
-
+  ! Escritura del archivo
+  DO i = 1,m*p
+    DO j = 1,n*q
+      rowVector(j) = INT(R(i,j))
+    END DO
+    WRITE(11,*) rowVector
+  END DO
+  CLOSE(11)
 
 END PROGRAM kroneckerProduct
 
