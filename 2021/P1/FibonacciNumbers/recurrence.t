@@ -1,5 +1,3 @@
-Command exited with non-zero status 127
-0.00 1004 ?%
 0.00 2572 50%
 0.00 2500 100%
 0.01 2524 92%
