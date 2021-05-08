@@ -33,11 +33,13 @@ IMPLICIT NONE
   ! matrices
   INTEGER(16), DIMENSION(2,2) :: F, step, nF
   ! iteradores
-  INTEGER(16) :: i,j,k,l
+  INTEGER(16) :: l
   ! n-esimo número
   INTEGER(16) :: n
   ! variable de error
   INTEGER :: err
+
+
   ! matriz inicial
   F = 1
   F(2,2) = 0
@@ -53,20 +55,14 @@ IMPLICIT NONE
   END IF
 
   ! PRODUCTO DE MATRICES
-  step = F
-  DO l = 1,n ! Exponenciación
-    nF = 0
-    DO i = 1,2 ! producto de matrices
-      DO j = 1,2
-        DO k = 1,2
-          nF(i,j) = nF(i,j) + F(i,k)*step(k,j)
-        END DO
-      END DO
-    END DO
-    step = nF ! Copia para realizar la exponenciación
+  step = F ! matriz paso para almacenar la siguiente matriz a multiplicar
+  nF = 0 ! matriz de almacenamiento
+  DO l = 1,n
+    nF = MATMUL(F,step)
+    step = nF
   END DO
 
-  WRITE(*,*) nF(2,2) ! termino que representa el n-esimo término
+  WRITE(*,*) nF(2,2) ! termino que representa el n-esimo número de fibonacci
 
 
 END PROGRAM matrixFibonacci
