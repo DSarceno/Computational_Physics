@@ -35,7 +35,7 @@ PROGRAM goldbachCongeture
 
   IMPLICIT NONE
 
-  INTEGER :: i, n
+  INTEGER :: i, j, n
 
   READ(*,*) n
 
@@ -43,14 +43,21 @@ PROGRAM goldbachCongeture
 
   DO i = 2, n
     IF (primes(i) .EQV. .TRUE.) THEN
-      WRITE(99,*) i
+      WRITE(*,*) i
     END IF
+  END DO
+
+  DO i = 2, n
+    DO j = 2, n
+      
+    END DO
   END DO
 
 
 
+
   ! Implementación de la conjetura de Goldbach
-  
+
 
 
 END PROGRAM goldbachCongeture
