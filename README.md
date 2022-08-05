@@ -10,3 +10,8 @@ en la ECFM.
 
 ### Archivos Importantes
   - [Encabezado del Código](./header.f95)
+
+### Miscelaneos
+
+## Licencia
+[![LICENSE](https://img.shields.io/github/license/DSarceno/Computational_Physics?style=for-the-badge&color=purple)](LICENSE)
