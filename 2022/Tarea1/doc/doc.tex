@@ -1,0 +1,34 @@
+\input{/home/diego/Documents/Licenciatura/LatexBasic/Preamble_general}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr}%formato de pagina
+\pagestyle{fancy}%colocar la pagina con el formato deseado
+\fancyhead{}
+\fancyhead[L]{\footnotesize{Física Computacional}}
+\fancyhead[C]{Tarea 1}
+\fancyhead[R]{\footnotesize{\thepage}}
+%\fancyhead[LO,RE]{Cálculo 3}
+%\fancyhead[RO,LE]{\footnotesize{\thepage}}
+\fancyfoot{}
+\fancyfoot[L]{Diego Sarceño}
+%\fancyfoot[LO,RE]{Diego Sarceño}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% NUEVA BARRA INFERIOR, NICEEEE :3
+\usepackage{fourier-orns}
+
+\renewcommand\footrule{%
+\hrulefill
+\raisebox{-2.1pt}
+{\quad\decosix\quad}%
+\hrulefill}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{DS_Black}{HTML}{000000}
+
+\begin{document}
+\begin{titlepage}
+\input{Header_original}
+
+\input{content.tex}
+
+\end{titlepage}
+\end{document}
