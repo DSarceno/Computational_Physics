@@ -216,8 +216,113 @@ double derivada(double y, double x){
 
 
 \section*{Problema 3}
+Dado el sistema de una masa en un resorte, se tiene la ecuación diferencial
+	$$ \dv{v}{t} = -\frac{kx}{m}, $$
+la cual se divide en las siguientes dos ecuaciones
+	$$ \dv{v}{t} = -x, $$
+	$$ \dv{x}{t} = v. $$
+Estas se resuelven por medio del método de Euler Modificado y un paso $h = 0.1$. Con lo cual, se obtuvieron los resultados
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{../img/ej5-3_1.pdf}
+	\caption{Posición y Velocidad en el tiempo.}
+	\label{ej3_1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{../img/ej5-3_2.pdf}
+	\caption{Energía.}
+	\label{ej3_2}
+\end{figure}
 
 
+\begin{lstlisting}
+// Librerias
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+double euler_modificado(double y, double v, double t, double h);
+double euler_modificado2(double y, double v, double t, double h);
+double derivada(double v, double t);
+double derivada2(double y, double t);
+double energia(double y, double v);
+
+
+int main(){
+  const double y0 = 0.0;
+  const double v0 = 1.0;
+  const double t0 = 0.0;
+  const double h = 0.10;
+  const double e0 = 0.5;
+  const int N = 100;
+  ofstream data;
+
+  double y = y0;
+  double v = v0;
+  double t = t0;
+  double E = e0;
+  double y_new = 0.0;
+  double v_new = 0.0;
+  double E_new = 0.0;
+
+
+  data.open("data.dat", ios::out);
+  data << t << "\t" << y << "\t" << v << "\t" << E << endl;
+
+  for (int i = 0; i <= N; i++){
+    v_new = euler_modificado(y, v, t, h);
+    y_new = euler_modificado2(y, v, t, h);
+
+    y = y_new;
+    v = v_new;
+
+    E_new = energia(y, v);
+    E = E_new;
+
+    t = t + h;
+
+    data << t << "\t" << y << "\t" << v << "\t" << E << endl;
+  } // END FOR
+  data.close();
+
+  return 0;
+} // END MAIN
+
+
+double euler_modificado(double y, double v, double t, double h){
+  //double t_mid = t + h/2;
+  //double v_mid = v - 0.5*h*derivada2(y, t);
+  double y_mid = y + 0.5*h*derivada(v, t);
+
+  return v - h*y_mid;
+} // END EULER_MODIFICADO
+
+double euler_modificado2(double y, double v, double t, double h){
+  //double t_mid = t + h/2;
+  double v_mid = v - 0.5*h*derivada2(y, t);
+  //double y_mid = y + 0.5*h*derivada(v, t);
+
+  return y + h*v_mid;
+} // END EULER_MODIFICADO
+
+double derivada(double v, double t){
+  return v;
+} // END DERIVADA
+
+
+double derivada2(double y, double t){
+  return -y;
+} // END DERIVADA
+
+
+double energia(double y, double v){
+  return y*y/2 + v*v/2;
+} // END ENERGIA
+
+\end{lstlisting}
 
 
 
