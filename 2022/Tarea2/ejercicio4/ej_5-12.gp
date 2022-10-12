@@ -31,21 +31,21 @@ set y2label "ω"
 set key left top box
 
 
-plot "data.dat" u 1:2 w lp t "θ - t", "data.dat" u 1:3 w lp lc "blue" t "ω - t"
+plot "data1" u 1:2 w lp t "θ - t", "data1" u 1:3 w lp lc "blue" t "ω - t"
 
 
 
 # Terminal
-unset label
-clear
-set terminal pdf
-set output "../img/ej5-12-2.pdf"
-set grid
+#unset label
+#clear
+#set terminal pdf
+#set output "../img/ej5-12-2.pdf"
+#set grid
 #set size ratio -1
-set title "Oscilador Armónico Simple (Ejercicio 5.12)"
-set xlabel "θ"
-set ylabel "ω"
-set key left top box
+#set title "Oscilador Armónico Simple (Ejercicio 5.12)"
+#set xlabel "θ"
+#set ylabel "ω"
+#set key left top box
 
 
-plot "data.dat" u 2:3 w lp t "ω - θ"
+#plot "data1" u 2:3 w lp t "ω - θ"
