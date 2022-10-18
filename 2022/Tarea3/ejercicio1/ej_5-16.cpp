@@ -35,7 +35,7 @@ int main(){
   const int N = 1000000; //48e6
   const int frec_out = 5000;
   const int n_ec = 12;
-  const int alpha = 6*M_PI_4;
+  const int alpha = 6*M_PI_2;
 
 
   // espacio de y
