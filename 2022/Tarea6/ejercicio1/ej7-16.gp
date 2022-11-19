@@ -19,7 +19,7 @@ set xrange [-50:50]
 
 do for [i=0:100] {
 #    plot 'solucion.dat' index i u 2:3 w lp, '' index i u 2:4 w lp
-    plot 'solucion.dat' index i u 2:($3**2+$4**2) w lp
+    plot 'solucion.dat' index i u 2:($3**2+$4**2) w lp t "Onda"
 
     pause 0.1
     print i

@@ -1,0 +1,14 @@
+Física computacional
+
+Datos para hacer aproximaciones numéricas.  Todos los archivos tienen la
+misma estructura: en la primera línea está el número de datos, los datos 
+aparecen desde la segunda fila con este orden
+$x$,  $f(x)$,  $f'(x)$
+
+Para los métodos de aproximación que no usan la primera derivada de la
+función, este valor se puede desechar.
+
+dampOsc: oscilación armónica amortiguada
+expX: la exponencial de x
+poly: función polinomial
+sinX: función seno

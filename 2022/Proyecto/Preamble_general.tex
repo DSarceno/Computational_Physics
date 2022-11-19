@@ -1,0 +1,174 @@
+% AUTHOR: Diego Sarceno
+% Last Update: 11.07.2020
+
+\documentclass[11pt, spanish, letterpaper]{article} %tipo de documento
+
+\usepackage[letterpaper]{geometry} %margenes
+\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2cm,rmargin=2cm}
+\usepackage{amsmath,amsthm,amssymb} %modos matemáticos y  simbolos
+\usepackage{latexsym,amsfonts} %simbolos matematicos
+\usepackage{cancel} %hacer la linea que cancela las ecuaciones
+\usepackage[spanish, es-noshorthands]{babel} %comandos en español y cambia el cuadro por la tabla
+\decimalpoint %cambia las comas por puntos decimal
+\usepackage[utf8]{inputenc} %caracteristicas del español
+\usepackage{physics} %Simbolos fisicos
+\usepackage{array} %mejores formatos de tabla
+\setlength{\parindent}{1em} %sangria
+\usepackage{graphicx} %graficas e imagenes
+\usepackage{mathtools}
+\usepackage[framemethod=TikZ]{mdframed}%Entornos talegas
+\usepackage[bookmarksnumbered,
+			colorlinks = true,
+			linkcolor = blue,
+			citecolor = black,
+			urlcolor = black]{hyperref}%formato de los links y URL's
+\usepackage[document]{ragged2e}
+\usepackage{multicol} %varias columnas
+\usepackage{enumerate} %enumeraciones
+\usepackage{pgf,tikz,pgfplots} %documentos en formato tikz
+\usepackage{mathrsfs} %letras chingonas (transformada de laplace)
+\usepackage{subfigure} %varias figuras seguidas
+%\usepackage[square,numbers]{natbib} %bibliografias
+%\usepackage[nottoc]{tocbibind}
+%\bibliographystyle{plainnat}
+\usetikzlibrary{arrows, babel, calc}
+\usepackage{tabulary}
+\usepackage{multirow} %ocupar varias filas en una tabla
+\usepackage{fancybox} %recuadros talegas
+\usepackage{float} %ubicar graficas
+\usepackage{color}
+\usepackage{comment}
+\usepackage{stackrel}
+\usepackage{calligra}
+\usepackage{lipsum} % texto de relleno
+\usepackage{cite}
+\usepackage{circuitikz} % crear circuitos
+\usepackage{listings} % permite el ingreso de codigo
+%\usepackage{showframe}
+%\usepackage{LobsterTwo}
+% NEW PACKAGES
+\usepackage{makeidx}
+\usepackage{authblk} % para la manipulación de autores y afiliación
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{bbold}
+\usepackage{dsfont}
+\usepackage{tensor}
+\usepackage{colortbl}
+\usepackage{amsbsy}
+\usepackage[draft,inline,nomargin]{fixme} \fxsetup{theme=color}
+
+%This defines my comments
+\definecolor{mycolor}{RGB}{250,0,0}
+\FXRegisterAuthor{ds}{sds}{\color{mycolor}DS}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstset{basicstyle=\ttfamily,breaklines=true}
+\lstset{numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=6pt}
+\lstset{emph={import,as,return,for,in,else,if,def,True,False,append}, emphstyle=\color{blue}, emph={[2]pKronecker},
+emphstyle={[2]\color{violet}}, emph={[3]float,input,int,range,print,len},
+emphstyle={[3]\color{violet}}}
+\lstset{morecomment=[l][\color{gray!40}]{\#}, morestring=[b][\color{green!50!black}]"}
+%%	Importe de archivo: \lstinputlisting[inputencoding=latin1]{'nombre del archivo'.py}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\columnseprule}{0pt}
+%-------------------------------------------------
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}} %Conjuntos numericos
+\newcommand{\F}{\mathbb{F}} %Campo Cualquiera
+\newcommand{\Pos}{\mathbb{P}} %Reales positivos
+\newcommand{\f}{\textit{f}} %f de funcion
+\newcommand{\g}{\textit{g}}
+\newcommand{\kernel}{\mathscr{N}} %kernel
+\newcommand{\range}{\mathcal{R}} %range
+\newcommand{\lagran}{\mathcal{L}} %lagrangiano
+\newcommand{\laplace}{\mathscr{L}} %transformada de laplace, mapas lineales
+\newcommand{\M}{\mathcal{M}} %Matrices
+\newcolumntype{E}{>{$}c<{$}} %entorno matematico en columnas de una tabla
+\newcommand{\vi}{\boldsymbol{\hat{\imath}}}
+\newcommand{\vj}{\boldsymbol{\hat{\jmath}}}
+\newcommand{\vk}{\vu{k}}%vectores unitarios R3
+\newcommand{\vr}{\hat{r}}
+\newcommand{\vp}{\boldsymbol{\hat{\phi}}}
+\newcommand{\vz}{\vu{z}}%vectores unitarios en cilindricas
+\newcommand{\vaz}{\boldsymbol{\hat{\theta}}}%vectores unitarios en esféricas
+\newcommand{\vx}{\vu{x}}%vectores
+\newcommand{\vy}{\vu{y}}%vectores 
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\newcommand{\LI}{\lim _{h\longrightarrow 0}}
+\newcommand{\SU}{\longrightarrow \sum _{n=0} ^{\infty}}
+\newcommand{\QED}{\hfill {\qed}}
+\newcommand{\cis}{\text{cis} \,}
+%----------------------------------------------------------
+%----------------------------------------------------------
+
+
+%-paquete para unidades en el sistema internacional
+\usepackage[load=prefix, load=abbr, load=physical]{siunitx}
+\newunit{\gram}{g }%gramos
+\newunit{\velocity}{ \metre / \Sec }%unidades de velocidad sistema internacional
+\newunit{\acceleration}{ \metre / \Sec^2 }%unidades de aceleracion sistema internacional
+\newunit{\entropy}{ \joule / \kelvin }%unidades de entropia sistema internacional
+%--definiendo constantes fisicas en el SI
+\newcommand{\accgravity}{9.8 \metre / \Sec^2}
+%---diferencial inexacta
+\newcommand{\dbar}{\mathchar'26\mkern-12mu d}
+%-------------------------END-------------------------------------
+%------------------------Barra negra-------------------------------
+\tikzset{
+	warningsymbol/.style={
+		rectangle,draw=black,
+		fill=white,scale=1,
+		overlay}}
+\mdfdefinestyle{warning}{%
+	hidealllines=true,leftline=true,
+	skipabove=12,skipbelow=12pt,
+	innertopmargin=0.4em,%
+	innerbottommargin=0.4em,%
+	innerrightmargin=0.7em,%
+	rightmargin=0.7em,%
+	innerleftmargin=1.7em,%
+	leftmargin=0.7em,%
+	middlelinewidth=.2em,%
+	linecolor=black,%
+	fontcolor=black,%
+	firstextra={\path let \p1=(P), \p2=(O) in ($(\x2,0)+0.5*(0,\y1)$)
+										node[warningsymbol] {$\mathcal{S}$};},%
+	secondextra={\path let \p1=(P), \p2=(O) in ($(\x2,0)+0.5*(0,\y1)$)
+										node[warningsymbol] {$\mathcal{S}$};},%
+	middleextra={\path let \p1=(P), \p2=(O) in ($(\x2,0)+0.5*(0,\y1)$)
+										node[warningsymbol] {$\mathcal{S}$};},%
+	singleextra={\path let \p1=(P), \p2=(O) in ($(\x2,0)+0.5*(0,\y1)$)
+										node[warningsymbol] {$\mathcal{S}$};},%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Tema - BEGIN
+\newtheoremstyle{Tema}% name of the style to be used
+  {0mm}% measure of space to leave above the theorem. E.g.: 3pt
+  {10mm}% measure of space to leave below the theorem. E.g.: 3pt
+  {}% name of font to use in the body of the theorem
+  {}% measure of space to indent
+  {\bfseries}% name of head font
+  {\newline}% punctuation between head and body
+  {30mm}% space after theorem head
+  {}% Manually specify head
+
+\theoremstyle{Tema} \newtheorem{Tema}{Tema} %%%%% Template para Temas
+\theoremstyle{Tema} \newtheorem{serie}{Serie}              %%%%%  Template para Series de ejercicios
+\theoremstyle{Tema} \newtheorem{teorema}{Teorema}              %%%%%  Template para Teoremas
+\theoremstyle{Tema} \newtheorem{pregunta}{Pregunta}              %%%%%  Template para Series de ejercicios
+\theoremstyle{Tema} \newtheorem{ejercicio}{Ejercicio}    %%%%%  Template para Ejercicios
+\theoremstyle{Tema} \newtheorem{ejemplo}{Ejemplo}    %%%%%  Template para Ejemplos
+\theoremstyle{Tema} \newtheorem{solucion}{Solución}    %%%%%  Template para Soluciones
+\theoremstyle{Tema} \newtheorem{problem}{Problema}    %%%%%  Template para Problema
+\theoremstyle{Tema} \newtheorem{definicion}{Definición}    %%%%%  Template para Soluciones
+\theoremstyle{Tema} \newtheorem{proposicion}{Proposición}    %%%%%  Template para Soluciones
+\theoremstyle{Tema} \newtheorem{lema}{Lema}    %%%%%  Template para Soluciones
+%-------------------------END-------------------------------------

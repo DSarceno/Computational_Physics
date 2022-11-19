@@ -33,17 +33,17 @@ complex<double> I(0.0, 1.0);
 
 int main()
 {
-  int N = 64;
+  int N = 128;
   int Niter = 100;
   int outCada = 1;
   double tiempo = 0.0;
-  double L = 50.0;
+  double L = 10.0;
   double k0 = 2*M_PI/(N+1);
   double hbar = sqrt(7.6199682);
   double masa = 1.0;
   double dx    = 2*L/N;
   double dt    = 5e-18;
-  double delta_x = 2.0; // Ancho del paquete
+  double delta_x = 1.0; // Ancho del paquete
   double k0momentum = sqrt(2*masa*150)/hbar;  // T=p^2/(2m), p=hbar*k
   solucion.open( "solucion.dat", ios::out );
 
@@ -78,7 +78,7 @@ int main()
   // Inicializar Potencial
   for(int i=0; i<N+1; i++){
     if ( 20<=x[i] && x[i]<=30 )
-      V[i] = 10.0;
+      V[i] = 0.0;
     else
       V[i] = 0.0;
 

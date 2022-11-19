@@ -33,7 +33,7 @@ complex<double> I(0.0, 1.0);
 
 int main()
 {
-  int N = 64;
+  int N = 128;
   int Niter = 100;
   int outCada = 1;
   double tiempo = 0.0;
