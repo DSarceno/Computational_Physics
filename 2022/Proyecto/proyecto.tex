@@ -24,19 +24,18 @@
 \end{abstract}
 
 
-\section{Introducción}
-\label{sec:intro}
-\justify 
-\lipsum[1]	
+%\section{Introducción}
+%\label{sec:intro}
+%\justify 
+%\lipsum[1]	
 
 
-\section{Puntos de Lagrange}
-\label{sec:Puntos de Lagrange}
+\section{Problema de los $N$ Cuerpos}
+\label{sec:Problema de los $N$ Cuerpos}
+\justify
+Las primeras ideas acerca del "problema de los $n$ cuerpos" llegaron a comienzos del siglo XVII de la mano de Newton al decir que no es suficiente con especificar la posición inicial y la velocidad, o tampoco tres posiciones orbitales, sino que, para determinar con certeza la orbita de un planeta es necesario tomar en cuenta las fuerzas gravitatorias iteractivas. Newton no lo plantea directamente, pero en sus "Principia" se deduce que el problema de los $n$ es irresoluble.
 
-\lipsum[1-3]
-
-
-
+Ya se ha visto en otros cursos (Mecánica Clásica 1 y 2) que simplificaciones de este problema son posibles de resolver o aproximar analíticamente. Estas son: El problema de los $2$ cuerpos y el problema de los $3$ cuerpos restringido. En este caso se tomarán todas las masas involucradas iguales ($10^{18} kg$), además de restringir el movimiento de las mismas al plano $xy$.
 
 
 
@@ -49,11 +48,37 @@
 \section{Implementación}
 \label{sec:implementacion}
 
-\lipsum[1]
+\subsection{Posiciones Iniciales}
+Para las posiciones iniciales se utilizó una distribución uniforme de números en el rango de $[-1,1]$, en unidades astronómicas ($1UA = 1.5\times 10^{11} m$). Para esto se utilizaron librerías como \texttt{<cstdlib>} y \texttt{<random>}; así como una semilla (seed) para que las pruebas realizadas se puedan replicar la simulación. Con esto se generan los arreglos para las coordenadas $x$ e $y$.
+
+
+\subsection{Velocidades Iniciales}
+Dado que la distribución usada para colocar las partículas en la región dada es uniforme, entre más partículas se coloquen en dicha distribución, mejor será la aproximación a una distribución homogenea de masa. Teniendo esto, se supone una trayectoria circular inical, entonces igualando la fuerza centrípeta y gravitacional, se tiene
+\begin{equation}
+	\frac{m_i v_i ^2}{r_i} = \frac{GMm_i}{r_i ^2}, \qquad \qquad r_i = \sqrt{x_{i0} ^2 + iy_{i0} ^2},  \label{circular}
+\end{equation}
+con $M$ es la masa contenida en dicho circulo inicial, esta se puede calcular utilizando la densidad superficial de masa $\flatfrac{Nm_i}{L^2}$. Con esto se obtiene que
+\begin{equation}
+	v_i = \frac{\sqrt{G\pi Nm_i r_i}}{L}. \nonumber
+\end{equation}
+Además, es necesario añadirle la dirección aleatoria la cuál está dada por un vector unitario generado por la posición de la partícula
+\begin{equation}
+	\vb{v}_{i0} = \frac{\sqrt{G\pi Nm_i r_i}}{L} \qty(-\frac{y_{i0}}{r_i},\frac{x_{i0}}{r_i}). \label{velocidades}
+\end{equation}
+Aparte de esto, a cada partícula se le añade un valor adicional en cada dirección.
 
 
 
-
+\subsection{Ecuaciones de Movimiento}
+Para cada partícula se tiene una fuerza neta actuando sobre ella, con la ventaja de ser un sistema aislado. Cada una de estas fuerzas incluye la interacción del resto de partículas, por ende
+\begin{equation}
+	\vec{F}_i = \sum _{i\neq j} -Gm_i m_j \frac{\vec{r}_i - \vec{r} _j}{\abs{\vec{r}_i - \vec{r} _j}^3} \label{fuerza}
+\end{equation}
+con $\abs{\vec{r}_i - \vec{r} _j}^2 = (x_i - x_j)^2 + (y_i - y_j)^2$. Entonces, por segunda ley de Newton se tienen las siguientes ecuaciones de movimiento
+\begin{align*}
+	\ddot{x} _i &= \sum _{i\neq j} -\frac{Gm_j}{\abs{\vec{r}_i - \vec{r} _j}} (x_i - x_j), \\
+	 \ddot{y} _i &= \sum _{i\neq j} -\frac{Gm_j}{\abs{\vec{r}_i - \vec{r} _j}} (y_i - y_j).
+\end{align*}
 
 
 
@@ -78,10 +103,7 @@
 
 \section{Anexos}
 \label{sec:anexos}
-
-\lipsum[1]
-
-\lipsum[1]
+\subsection{Código}
 
 %\section*{Agradecimientos}
 %\label{sec:agradecimientos}
@@ -93,8 +115,7 @@
 \bibliography{references}%
 
 \begin{thebibliography}{00}
-\bibitem{b1} R. Symon, \textit{Mechanics} 3a. Ed. Addison$-$Wesley Publishing Company, 1971
-\bibitem{b2} R. Taylor, \textit{Classical Mechanics}, Edwards Brothers, Inc. 2005.
+\bibitem{b1} DeVries, P. L., \& Wolf, R. P. (1994). \textit{A first course in computational physics. Computers in Physics}, 8(2), 178-179.
 \end{thebibliography}
 
 \end{document}
