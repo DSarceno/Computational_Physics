@@ -1,5 +1,5 @@
-// jue 24 nov 2022 10:41:00 CST
-// n_cuerpos.cpp
+// lun 28 nov 2022 22:39:01 CST
+// prueba3cuerpos.cpp
 // Diego Sarceno (dsarceno68@gmail.com)
 
 // Resumen
@@ -7,8 +7,8 @@
 // Codificado del texto: UTF8
 // Compiladores probados: g++ (Ubuntu 20.04 Linux) 9.4.0
 // Instruciones de Ejecución: no requiere nada mas
-// g++ -Wall -c -o n_cuerpos.o n_cuerpos.cpp
-// g++ -o n_cuerpos.x n_cuerpos.o
+// g++ -Wall -c -o prueba3cuerpos.o prueba3cuerpos.cpp
+// g++ -o prueba3cuerpos.x prueba3cuerpos.o
 
 
 // Librerias
@@ -47,7 +47,7 @@ void RK4( double *y,
 	  void (*derivada)( double *, const double, double * ) );
 
 
-const int n_cuerpos = 100;
+const int n_cuerpos = 3;
 const int n_ec = 4*n_cuerpos;
 const double G = 6.67e-11;
 // Variables globales
@@ -64,28 +64,29 @@ double E, P, L;
 
 // Inicializar masas
 void init_masa(){
-	for (int i = 0; i < n_cuerpos; i++){
-		masa[i] = 10e18;
-	} // END FOR
+	masa[0] = 1.989e30;
+  masa[1] = 5.972e24;
+  masa[2] = 7.348e22;
 } // END masa
 
 // Inicializar posiciones
 void init_posicion(){
-  for (int i = 0; i < n_cuerpos; i++){
-		xp[i] = random_interval(generator)*1.5e11;
-		yp[i] = random_interval(generator)*1.5e11;
-	} // END FOR
+  xp[0] = 0.0;
+  xp[1] = 1.5096e11;
+  xp[2] = 1.5134e11;
+  yp[0] = 0.0;
+  yp[1] = 0.0;
+  yp[2] = 0.0;
 } // END init_posicion
 
   // Inicializar velocidades
 void init_velocidad(){
-	for (int i = 0; i < n_cuerpos; i++){
-		double ri = sqrt(pow(xp[i],2) + pow(yp[i],2));
-		double vi = sqrt(G*M_PI*n_cuerpos*masa[i]*ri)/(2*1.5e11);
-
-		vx[i] = vi*(-1.0*(yp[i]/ri) + random_interval(generator));
-		vx[i] = vi*((xp[i]/ri) + random_interval(generator));
-	} // END FOR
+	vx[0] = 0.0;
+  vx[1] = 0.0;
+  vx[2] = 0.0;
+  vy[0] = 0.0;
+  vy[1] = 2.979e4;
+  vy[2] = 3.080e4;
 } // END init_velocidad
 
 
@@ -277,9 +278,9 @@ int main()
 {
   // Parametros
 	// de 5 días en 5 días
-  const int Niter = 73*5000; // numero de iteraciones
-  const double h_step = 432000; // tamaño de paso
-  const int out_cada = 10000; // output cada out_cada iteraciones
+  const int Niter = 5000; // numero de iteraciones
+  const double h_step = 1; // tamaño de paso
+  const int out_cada = 10; // output cada out_cada iteraciones
 
   double tiempo = 0.0;
 
@@ -345,7 +346,7 @@ int main()
     verificar_colisiones(tiempo);
 
 
-		RK4( y, n_ec, tiempo, h_step, y_nueva, derivada );
+
     // salida
     if (k%out_cada == 0){
       salidaSolucion(tiempo, ss_posicion);
@@ -353,7 +354,7 @@ int main()
       salidaEnergiaMomento(tiempo, ss_energia);
       salidaMasa(tiempo, ss_masa);
     }
-
+    RK4( y, n_ec, tiempo, h_step, y_nueva, derivada );
 
     // Intercambiar valores
     for( int i=0; i<n_ec; i++ ) y[i] = y_nueva[i];
