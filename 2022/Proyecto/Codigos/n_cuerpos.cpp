@@ -133,6 +133,7 @@ void energia_momentos(){
 	double energia_cinetica = 0.0;
 	for (int i = 0; i < n_cuerpos; i++){
 		P += masa[i]*sqrt(vx[i]*vx[i] + vy[i]*vy[i]);
+		L += masa[i]*sqrt(xp[i]*xp[i] + yp[i]*yp[i])*sqrt(vx[i]*vx[i] + vy[i]*vy[i]);
 		energia_cinetica += 0.5*masa[i]*(vx[i]*vx[i] + vy[i]*vy[i]);
 		for (int j = 0; j < i; j++){
 			energia_potencial += G*masa[i]*masa[j]/sqrt(pow(xp[i] - xp[j],2) + pow(yp[i] - yp[j],2));
